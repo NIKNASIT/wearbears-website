@@ -60,7 +60,8 @@ button { font-family: var(--font-body); }
 /* ===== Header ===== */
 .site-header { background: var(--color-dark); color: var(--color-dark-text); position: sticky; top: 0; z-index: 100; }
 .site-header__inner { display: flex; align-items: center; justify-content: space-between; padding: 20px 24px; gap: 24px; }
-.site-header__logo { font-size: 22px; letter-spacing: 3px; white-space: nowrap; }
+.site-header__logo { display: flex; align-items: center; gap: 10px; font-size: 20px; letter-spacing: 3px; white-space: nowrap; }
+.site-header__logo img { display: block; border-radius: 50%; background: var(--color-dark-text); padding: 3px; }
 .site-nav { display: flex; gap: 32px; list-style: none; margin: 0; padding: 0; }
 .site-nav a { font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; padding-bottom: 4px; border-bottom: 1px solid transparent; }
 .site-nav a:hover, .site-nav a.is-active { border-bottom-color: var(--color-accent); }

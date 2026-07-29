@@ -1,4 +1,4 @@
-# Maison — Luxury Clothing Website
+# WearBears — Luxury Clothing Website
 
 A standalone HTML/CSS/JS website (no build tools, no framework — open the files
 directly or upload as-is to any web host). Below is exactly what to edit.
