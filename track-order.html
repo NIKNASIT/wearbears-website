@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Track Your Order — Maison</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="announcement-bar">Complimentary shipping across Ireland on orders over €150</div>
+
+<header class="site-header">
+  <div class="site-header__inner page-width">
+    <button class="nav-toggle" data-nav-toggle aria-label="Open menu">☰</button>
+    <a href="index.html" class="site-header__logo font-heading">Maison</a>
+    <nav>
+      <ul class="site-nav">
+        <li><a href="shop.html">Shop All</a></li>
+        <li><a href="shop.html?category=women">Women</a></li>
+        <li><a href="shop.html?category=men">Men</a></li>
+        <li><a href="about.html">Our Story</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+    <div class="site-header__icons">
+      <a href="bag.html" aria-label="Bag">
+        🛍
+        <span class="bag-count" data-bag-count style="display:none;">0</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<div class="overlay" data-overlay></div>
+<div class="mobile-nav" data-mobile-nav>
+  <button data-nav-close aria-label="Close menu">✕</button>
+  <ul>
+    <li><a href="shop.html">Shop All</a></li>
+    <li><a href="shop.html?category=women">Women</a></li>
+    <li><a href="shop.html?category=men">Men</a></li>
+    <li><a href="about.html">Our Story</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="track-order.html">Track Order</a></li>
+  </ul>
+</div>
+
+<main class="page-width section-padding">
+  <div class="rich-page" style="text-align:center;">
+    <span class="eyebrow">Order Status</span>
+    <h1>Track Your Order</h1>
+    <p>Check the status of your delivery below, or sign in to your Shopify account for full order history.</p>
+  </div>
+
+  <div class="rich-page" style="margin-top:24px;">
+    <div class="track-order-box">
+      <h3 style="font-size:14px;margin-bottom:10px;">Check your email</h3>
+      <p style="font-size:14px;color:#555;margin-bottom:0;">
+        Every order comes with a confirmation email, and a shipping confirmation email once it
+        dispatches — both include a "Track your order" link that takes you straight to your live,
+        real-time order status page. No account needed.
+      </p>
+    </div>
+
+    <div class="track-order-box">
+      <h3 style="font-size:14px;margin-bottom:10px;">Have an account?</h3>
+      <p style="font-size:14px;color:#555;margin-bottom:16px;">
+        Sign in to see all your past orders and their live fulfillment status in one place.
+      </p>
+      <a href="#" id="account-login-link" class="btn btn--full">Sign In to Track Order</a>
+    </div>
+
+    <div class="track-order-box">
+      <h3 style="font-size:14px;margin-bottom:10px;">Can't find your confirmation email?</h3>
+      <p style="font-size:14px;color:#555;margin-bottom:0;">
+        <a href="contact.html" style="text-decoration:underline;">Contact us</a> with your order number
+        and email address and we'll look it up for you.
+      </p>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div>
+      <p class="font-heading" style="font-size:20px;letter-spacing:2px;">Maison</p>
+      <p style="opacity:.75;font-size:14px;max-width:320px;">Considered clothing for men and women, crafted from fine materials and made to last.</p>
+    </div>
+    <div>
+      <h4>Shop</h4>
+      <ul>
+        <li><a href="shop.html?category=women">Women</a></li>
+        <li><a href="shop.html?category=men">Men</a></li>
+        <li><a href="shop.html">All Products</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Customer Care</h4>
+      <ul>
+        <li><a href="track-order.html">Track Your Order</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>&copy; <span id="year"></span> Maison. All rights reserved.</span>
+    <div class="payment-icons">
+      <span>Visa</span><span>Mastercard</span><span>Amex</span><span>Revolut Pay</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+<script src="js/config.js"></script>
+<script>
+  document.getElementById('account-login-link').href =
+    (SITE_CONFIG.STORE_DOMAIN.indexOf('your-store') === -1)
+      ? 'https://' + SITE_CONFIG.STORE_DOMAIN + '/account/login'
+      : '#';
+  document.getElementById('account-login-link').addEventListener('click', function (e) {
+    if (SITE_CONFIG.STORE_DOMAIN.indexOf('your-store') !== -1) {
+      e.preventDefault();
+      alert('Add your Shopify store domain in js/config.js to enable this link (see README.md).');
+    }
+  });
+</script>
+<script src="js/products.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
