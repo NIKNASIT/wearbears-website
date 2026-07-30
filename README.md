@@ -60,7 +60,23 @@ links, and account order history), since that's where the real order and payment
 exist. The `track-order.html` page explains this to customers and links to
 Shopify's account sign-in once `STORE_DOMAIN` is set.
 
-## 5. Viewing the site
+**To see every order yourself:** Shopify Admin → **Orders**. That page already is
+your order admin panel — no separate one is needed.
+
+## 5. Reading customer messages (Contact page)
+
+The Contact form submits via **Netlify Forms** (a free built-in feature of your
+host) instead of email — every submission is captured automatically.
+
+**To read messages:** Netlify → your site → **Forms** (left sidebar) → click
+**contact**. Every submission (name, email, order number, message) appears there,
+newest first.
+
+**To get an email the moment someone submits:** Forms → **Settings and usage** →
+**Add notification** → **Email notification** → enter your email address. No code
+needed — this is a one-time click.
+
+## 6. Viewing the site
 
 Just open `index.html` in a browser to preview. To publish it, upload the whole
 folder to any static web host (or your domain's file hosting) exactly as-is.
@@ -72,7 +88,7 @@ shop.html            Full catalog with Men/Women/All filter
 product.html         Single product detail (?id=... from products.js)
 bag.html             Shopping bag (saved in the browser)
 track-order.html     Order tracking info
-contact.html         Contact form (opens the customer's email app)
+contact.html         Contact form (submits to Netlify Forms — see section 5)
 about.html           Brand story
 css/style.css        All styling
 js/products.js       ← Edit this for products/photos/prices

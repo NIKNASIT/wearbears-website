@@ -52,23 +52,33 @@
     <p>Questions about an order, sizing, or anything else — we're happy to help.</p>
   </div>
 
-  <form class="rich-page" onsubmit="return handleContactSubmit(event)">
+  <form
+    class="rich-page"
+    id="ContactForm"
+    name="contact"
+    method="POST"
+    data-netlify="true"
+    data-netlify-honeypot="bot-field"
+    onsubmit="return handleContactSubmit(event)">
+    <input type="hidden" name="form-name" value="contact">
+    <p style="position:absolute;left:-9999px;">
+      <label>Leave this empty: <input name="bot-field"></label>
+    </p>
+
     <label for="ContactName">Name</label>
-    <input class="field" type="text" id="ContactName" required>
+    <input class="field" type="text" id="ContactName" name="name" required>
 
     <label for="ContactEmail">Email</label>
-    <input class="field" type="email" id="ContactEmail" required>
+    <input class="field" type="email" id="ContactEmail" name="email" required>
 
     <label for="ContactOrder">Order number (if applicable)</label>
-    <input class="field" type="text" id="ContactOrder" placeholder="e.g. #1012">
+    <input class="field" type="text" id="ContactOrder" name="order_number" placeholder="e.g. #1012">
 
     <label for="ContactMessage">Message</label>
-    <textarea class="field" id="ContactMessage" rows="5" required></textarea>
+    <textarea class="field" id="ContactMessage" name="message" rows="5" required></textarea>
 
-    <button type="submit" class="btn btn--full">Send Message</button>
-    <p style="font-size:12px;color:#777;margin-top:12px;text-align:center;">
-      This opens your email app with the message pre-filled, ready to send to us.
-    </p>
+    <button type="submit" class="btn btn--full" id="ContactSubmitBtn">Send Message</button>
+    <p id="ContactStatus" style="font-size:13px;margin-top:12px;text-align:center;"></p>
   </form>
 </main>
 
@@ -104,15 +114,40 @@
 
 <script>
   document.getElementById('year').textContent = new Date().getFullYear();
+  function encodeFormData(form) {
+    return new URLSearchParams(new FormData(form)).toString();
+  }
+
   function handleContactSubmit(e) {
     e.preventDefault();
-    const name = document.getElementById('ContactName').value;
-    const email = document.getElementById('ContactEmail').value;
-    const order = document.getElementById('ContactOrder').value;
-    const message = document.getElementById('ContactMessage').value;
-    const body = "Name: " + name + "\nEmail: " + email + "\nOrder: " + order + "\n\n" + message;
-    window.location.href = "mailto:CHANGE-ME@yourstore.com?subject=" +
-      encodeURIComponent("Website enquiry from " + name) + "&body=" + encodeURIComponent(body);
+    const form = document.getElementById('ContactForm');
+    const btn = document.getElementById('ContactSubmitBtn');
+    const status = document.getElementById('ContactStatus');
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+    status.style.color = '';
+    status.textContent = '';
+
+    fetch('/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: encodeFormData(form)
+    })
+      .then(function (response) {
+        if (!response.ok) throw new Error('Network response was not ok');
+        form.reset();
+        btn.style.display = 'none';
+        status.style.color = 'var(--color-accent)';
+        status.textContent = "Thank you — we've received your message and will get back to you shortly.";
+      })
+      .catch(function () {
+        status.style.color = '#B3261E';
+        status.textContent = "Something went wrong sending your message. Please email us directly instead.";
+      })
+      .finally(function () {
+        btn.disabled = false;
+        btn.textContent = 'Send Message';
+      });
     return false;
   }
 </script>
