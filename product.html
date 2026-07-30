@@ -86,5 +86,10 @@
 <script src="js/shop.js"></script>
 <script src="js/product-detail.js"></script>
 <script src="js/main.js"></script>
+<script>
+  if (/invite_token=|recovery_token=|confirmation_token=/.test(window.location.hash)) {
+    window.location.replace('/admin.html' + window.location.hash);
+  }
+</script>
 </body>
 </html>
