@@ -44,10 +44,10 @@ document.addEventListener("DOMContentLoaded", function () {
             '</div>' +
           '</div>' +
           '<button type="button" class="btn btn--full" data-add-to-bag style="margin-bottom:12px;">Add to Bag</button>' +
-          (product.shopifyUrl ? '<a href="' + product.shopifyUrl + '" class="btn btn--outline btn--full">Buy Now — Secure Checkout</a>' : '') +
+          '<button type="button" class="btn btn--outline btn--full" data-buy-now>Buy Now — Secure Checkout</button>' +
           '<div class="trust-badges">' +
             '<span>Insured shipping across Ireland &amp; EU</span>' +
-            '<span>Secure checkout · Card &amp; Revolut Pay</span>' +
+            '<span>Secure checkout with Stripe</span>' +
             '<span>30-day returns</span>' +
           '</div>' +
           '<div class="product__accordion">' +
@@ -87,6 +87,10 @@ document.addEventListener("DOMContentLoaded", function () {
       const original = btn.textContent;
       btn.textContent = "Added to Bag";
       setTimeout(function () { btn.textContent = original; }, 1500);
+    });
+
+    root.querySelector("[data-buy-now]").addEventListener("click", function (e) {
+      startCheckout([{ productId: product.id, size: selectedSize, qty: parseInt(qtyInput.value, 10) }], e.currentTarget);
     });
   }
 

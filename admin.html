@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Admin — WearBears</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="css/style.css">
+<style>
+  .admin-header { background: var(--color-dark); color: var(--color-dark-text); padding: 20px 24px; display: flex; justify-content: space-between; align-items: center; }
+  .admin-header h1 { margin: 0; font-size: 18px; letter-spacing: 2px; }
+  .admin-wrap { max-width: 1200px; margin: 0 auto; padding: 40px 24px; }
+  .admin-gate { text-align: center; padding: 100px 24px; }
+  .orders-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .orders-table th { text-align: left; padding: 10px 8px; border-bottom: 2px solid var(--color-border); font-size: 11px; letter-spacing: 1px; text-transform: uppercase; }
+  .orders-table td { padding: 10px 8px; border-bottom: 1px solid var(--color-border); vertical-align: top; }
+  .orders-table select, .orders-table input { font-size: 13px; padding: 6px 8px; border: 1px solid var(--color-border); width: 100%; }
+  .orders-table .save-btn { font-size: 11px; padding: 8px 12px; }
+  .admin-empty { text-align: center; padding: 60px 24px; color: #777; }
+  .admin-refresh { font-size: 12px; text-decoration: underline; cursor: pointer; background: none; border: none; color: inherit; }
+</style>
+</head>
+<body>
+
+<div class="admin-header">
+  <h1>WEARBEARS ADMIN</h1>
+  <div id="AdminUserInfo" style="font-size:13px;display:flex;align-items:center;gap:16px;"></div>
+</div>
+
+<div id="AdminGate" class="admin-gate">
+  <span class="eyebrow">Restricted Area</span>
+  <h2>Sign In to View Orders</h2>
+  <p style="color:#666;margin-bottom:24px;">Only invited administrators can access this page.</p>
+  <button type="button" class="btn" id="LoginBtn">Sign In</button>
+</div>
+
+<div id="AdminContent" class="admin-wrap" style="display:none;">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;">
+    <h2 style="margin:0;">Orders</h2>
+    <button type="button" class="admin-refresh" id="RefreshBtn">Refresh</button>
+  </div>
+  <div id="OrdersWrap" style="overflow-x:auto;">
+    <p class="admin-empty">Loading orders…</p>
+  </div>
+</div>
+
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<script src="js/config.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>

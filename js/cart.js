@@ -105,22 +105,32 @@ function renderBagPage() {
 
   const checkoutBtn = document.querySelector("[data-checkout-btn]");
   if (checkoutBtn) {
-    checkoutBtn.onclick = function () { goToCheckout(bag); };
+    checkoutBtn.onclick = function () { startCheckout(bag, checkoutBtn); };
   }
 }
 
-function goToCheckout(bag) {
-  const domain = (window.SITE_CONFIG && window.SITE_CONFIG.STORE_DOMAIN) || "";
-  if (!domain || domain.indexOf("your-store") !== -1) {
-    alert("Checkout isn't connected yet. Add your Shopify store domain in js/config.js (see README.md) to enable real checkout.");
-    return;
-  }
-  const firstWithLink = bag.map(function (l) { return findProduct(l.productId); }).find(function (p) { return p && p.shopifyUrl; });
-  if (firstWithLink) {
-    window.location.href = firstWithLink.shopifyUrl;
-  } else {
-    window.location.href = "https://" + domain + "/cart";
-  }
+function startCheckout(items, btn) {
+  const originalText = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = "Redirecting to secure checkout…";
+
+  fetch("/api/create-checkout-session", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ items: items })
+  })
+    .then(function (r) { return r.json().then(function (data) { return { ok: r.ok, data: data }; }); })
+    .then(function (result) {
+      if (!result.ok || !result.data.url) {
+        throw new Error((result.data && result.data.error) || "Could not start checkout.");
+      }
+      window.location.href = result.data.url;
+    })
+    .catch(function (err) {
+      alert(err.message || "Something went wrong starting checkout. Please try again.");
+      btn.disabled = false;
+      btn.textContent = originalText;
+    });
 }
 
 document.addEventListener("DOMContentLoaded", function () {

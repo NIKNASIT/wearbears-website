@@ -49,34 +49,36 @@
   <div class="rich-page" style="text-align:center;">
     <span class="eyebrow">Order Status</span>
     <h1>Track Your Order</h1>
-    <p>Check the status of your delivery below, or sign in to your Shopify account for full order history.</p>
+    <p>Enter your order number and the email address you used at checkout.</p>
   </div>
 
-  <div class="rich-page" style="margin-top:24px;">
-    <div class="track-order-box">
-      <h3 style="font-size:14px;margin-bottom:10px;">Check your email</h3>
-      <p style="font-size:14px;color:#555;margin-bottom:0;">
-        Every order comes with a confirmation email, and a shipping confirmation email once it
-        dispatches — both include a "Track your order" link that takes you straight to your live,
-        real-time order status page. No account needed.
-      </p>
+  <div class="rich-page" style="margin-top:24px;max-width:480px;">
+    <form id="TrackOrderForm">
+      <label for="OrderNumber">Order Number</label>
+      <input class="field" type="text" id="OrderNumber" placeholder="e.g. WB3F8K2XQZ" required>
+
+      <label for="OrderEmail">Email</label>
+      <input class="field" type="email" id="OrderEmail" required>
+
+      <button type="submit" class="btn btn--full" id="TrackOrderBtn">Track Order</button>
+    </form>
+
+    <p id="TrackOrderError" style="color:#B3261E;font-size:14px;margin-top:16px;text-align:center;"></p>
+
+    <div id="TrackOrderResult" class="track-order-box" style="display:none;margin-top:24px;">
+      <h3 style="font-size:14px;margin-bottom:10px;">Order <span id="ResultOrderNumber"></span></h3>
+      <p style="font-size:14px;margin-bottom:12px;">Status: <strong id="ResultStatus"></strong></p>
+      <div id="ResultTracking" style="display:none;margin-bottom:12px;font-size:14px;">
+        <p>Carrier: <span id="ResultCarrier"></span></p>
+        <p>Tracking number: <span id="ResultTrackingNumber"></span></p>
+        <a id="ResultTrackingUrl" href="#" target="_blank" rel="noopener" class="btn btn--outline" style="margin-top:8px;">Track Shipment</a>
+      </div>
+      <div id="ResultItems" style="font-size:14px;color:#555;"></div>
     </div>
 
-    <div class="track-order-box">
-      <h3 style="font-size:14px;margin-bottom:10px;">Have an account?</h3>
-      <p style="font-size:14px;color:#555;margin-bottom:16px;">
-        Sign in to see all your past orders and their live fulfillment status in one place.
-      </p>
-      <a href="#" id="account-login-link" class="btn btn--full">Sign In to Track Order</a>
-    </div>
-
-    <div class="track-order-box">
-      <h3 style="font-size:14px;margin-bottom:10px;">Can't find your confirmation email?</h3>
-      <p style="font-size:14px;color:#555;margin-bottom:0;">
-        <a href="contact.html" style="text-decoration:underline;">Contact us</a> with your order number
-        and email address and we'll look it up for you.
-      </p>
-    </div>
+    <p style="font-size:14px;color:#555;margin-top:24px;text-align:center;">
+      Can't find your order number? <a href="contact.html" style="text-decoration:underline;">Contact us</a> with your email and we'll look it up for you.
+    </p>
   </div>
 </main>
 
@@ -105,7 +107,7 @@
   <div class="footer-bottom">
     <span>&copy; <span id="year"></span> WearBears. All rights reserved.</span>
     <div class="payment-icons">
-      <span>Visa</span><span>Mastercard</span><span>Amex</span><span>Revolut Pay</span>
+      <span>Visa</span><span>Mastercard</span><span>Amex</span>
     </div>
   </div>
 </footer>
@@ -114,19 +116,65 @@
   document.getElementById('year').textContent = new Date().getFullYear();
 </script>
 <script src="js/config.js"></script>
+<script src="js/products.js"></script>
 <script>
-  document.getElementById('account-login-link').href =
-    (SITE_CONFIG.STORE_DOMAIN.indexOf('your-store') === -1)
-      ? 'https://' + SITE_CONFIG.STORE_DOMAIN + '/account/login'
-      : '#';
-  document.getElementById('account-login-link').addEventListener('click', function (e) {
-    if (SITE_CONFIG.STORE_DOMAIN.indexOf('your-store') !== -1) {
-      e.preventDefault();
-      alert('Add your Shopify store domain in js/config.js to enable this link (see README.md).');
-    }
+  document.getElementById('TrackOrderForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    const btn = document.getElementById('TrackOrderBtn');
+    const errorEl = document.getElementById('TrackOrderError');
+    const resultEl = document.getElementById('TrackOrderResult');
+    const orderNumber = document.getElementById('OrderNumber').value.trim();
+    const email = document.getElementById('OrderEmail').value.trim();
+
+    btn.disabled = true;
+    btn.textContent = 'Searching…';
+    errorEl.textContent = '';
+    resultEl.style.display = 'none';
+
+    fetch('/api/get-order', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ orderNumber: orderNumber, email: email })
+    })
+      .then(function (r) { return r.json().then(function (data) { return { ok: r.ok, data: data }; }); })
+      .then(function (result) {
+        if (!result.ok) throw new Error(result.data.error || 'Order not found.');
+        const order = result.data;
+
+        document.getElementById('ResultOrderNumber').textContent = order.orderNumber;
+        document.getElementById('ResultStatus').textContent = order.status;
+
+        const items = order.items || [];
+        document.getElementById('ResultItems').innerHTML = items.map(function (item) {
+          return '<p>' + item.quantity + ' &times; ' + item.title + (item.size ? ' (Size: ' + item.size + ')' : '') + '</p>';
+        }).join('');
+
+        if (order.trackingNumber) {
+          document.getElementById('ResultTracking').style.display = 'block';
+          document.getElementById('ResultCarrier').textContent = order.trackingCarrier || 'Courier';
+          document.getElementById('ResultTrackingNumber').textContent = order.trackingNumber;
+          const link = document.getElementById('ResultTrackingUrl');
+          if (order.trackingUrl) {
+            link.href = order.trackingUrl;
+            link.style.display = 'inline-flex';
+          } else {
+            link.style.display = 'none';
+          }
+        } else {
+          document.getElementById('ResultTracking').style.display = 'none';
+        }
+
+        resultEl.style.display = 'block';
+      })
+      .catch(function (err) {
+        errorEl.textContent = err.message;
+      })
+      .finally(function () {
+        btn.disabled = false;
+        btn.textContent = 'Track Order';
+      });
   });
 </script>
-<script src="js/products.js"></script>
 <script src="js/cart.js"></script>
 <script src="js/main.js"></script>
 </body>

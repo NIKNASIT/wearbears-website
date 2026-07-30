@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Product — WearBears</title>
+<title>Order Confirmed — WearBears</title>
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -45,8 +45,17 @@
   </ul>
 </div>
 
-<main class="page-width section-padding" data-product-detail>
-  <!-- product content injected by js/product-detail.js -->
+<main class="page-width section-padding">
+  <div class="rich-page" style="text-align:center;" id="SuccessContent">
+    <span class="eyebrow">Thank You</span>
+    <h1>Order Confirmed</h1>
+    <p id="SuccessMessage">Finalising your order details…</p>
+    <div id="SuccessDetails" style="display:none;margin-top:24px;text-align:left;" class="track-order-box">
+      <p style="margin-bottom:8px;">Order number: <strong id="SuccessOrderNumber"></strong></p>
+      <p style="font-size:14px;color:#555;">A confirmation has been sent to <span id="SuccessEmail"></span>. Save your order number to check its status any time on the <a href="track-order.html" style="text-decoration:underline;">Track Order</a> page.</p>
+    </div>
+    <a href="shop.html" class="btn btn--outline" style="margin-top:32px;">Continue Shopping</a>
+  </div>
 </main>
 
 <footer class="site-footer">
@@ -79,12 +88,42 @@
   </div>
 </footer>
 
-<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+  localStorage.removeItem('luxe_bag_v1');
+</script>
 <script src="js/config.js"></script>
-<script src="js/products.js"></script>
 <script src="js/cart.js"></script>
-<script src="js/shop.js"></script>
-<script src="js/product-detail.js"></script>
 <script src="js/main.js"></script>
+<script>
+  const sessionId = new URLSearchParams(window.location.search).get('session_id');
+  const messageEl = document.getElementById('SuccessMessage');
+
+  if (!sessionId) {
+    messageEl.textContent = "We couldn't find your order details, but if you completed payment, it went through successfully.";
+  } else {
+    let attempts = 0;
+    (function poll() {
+      attempts++;
+      fetch('/api/get-order-by-session?session_id=' + encodeURIComponent(sessionId))
+        .then(function (r) { return r.json().then(function (data) { return { status: r.status, data: data }; }); })
+        .then(function (result) {
+          if (result.status === 200) {
+            messageEl.textContent = "Your payment was successful and your order has been placed.";
+            document.getElementById('SuccessOrderNumber').textContent = result.data.orderNumber;
+            document.getElementById('SuccessEmail').textContent = result.data.email;
+            document.getElementById('SuccessDetails').style.display = 'block';
+          } else if (attempts < 6) {
+            setTimeout(poll, 1500);
+          } else {
+            messageEl.textContent = "Your payment was successful. Your order confirmation email is on its way.";
+          }
+        })
+        .catch(function () {
+          messageEl.textContent = "Your payment was successful. Your order confirmation email is on its way.";
+        });
+    })();
+  }
+</script>
 </body>
 </html>

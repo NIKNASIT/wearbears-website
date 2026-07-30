@@ -1,0 +1,10 @@
+{
+  "name": "wearbears-website",
+  "version": "1.0.0",
+  "private": true,
+  "description": "WearBears storefront with Netlify Functions backend (Stripe checkout, orders, admin panel)",
+  "dependencies": {
+    "@netlify/blobs": "^7.3.0",
+    "stripe": "^17.4.0"
+  }
+}

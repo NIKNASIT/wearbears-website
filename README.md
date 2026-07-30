@@ -32,69 +32,115 @@ existing entries in `products.js` and giving it a unique `id`.
 All in `js/products.js` — one plain-English array, no coding knowledge needed
 beyond editing text between quotes.
 
-## 3. Making the "Checkout" and payment buttons actually work
+## 3. Making checkout, orders, and tracking actually work (Stripe + your own backend)
 
-This site is a real, custom-designed storefront for browsing — but taking real
-money securely (card + Revolut) requires a payment backend, which a plain static
-site cannot safely do on its own. Since you already have Shopify, this site is
-wired to hand off to your **real Shopify checkout** for the actual payment step:
+This site no longer depends on Shopify or any other e-commerce platform. Checkout,
+order storage, and order tracking are all custom-built, running on **Netlify
+Functions** (serverless code, included free with your Netlify hosting) plus
+**Stripe** for actually processing card payments. Nothing here charges real money
+until you complete the one-time setup below.
 
-1. In `js/config.js`, set `STORE_DOMAIN` to your Shopify store's `.myshopify.com`
-   address (Admin → Settings → Domains).
-2. For each product, once it also exists in your Shopify store, open it in Shopify
-   admin, click **View**, and paste that URL into the product's `shopifyUrl` field
-   in `products.js`. Now that product's "Buy Now" button takes the customer to the
-   real, secure Shopify checkout page for that item.
-3. Set up card payments (Shopify Payments) and Revolut Pay in your Shopify store
-   exactly as described in the `SETUP_GUIDE.md` from the Shopify theme package I
-   sent earlier — that part doesn't change.
+**Important honesty note:** Stripe does not support "Revolut Pay" as a payment
+method — it's a competing wallet, not something Stripe offers. This setup gives
+you real Visa/Mastercard/Amex card payments plus Apple Pay/Google Pay
+automatically. If you want actual Revolut Pay later, that's a separate, additional
+integration on top of this.
 
-Until you fill in `shopifyUrl` / `STORE_DOMAIN`, the Checkout button will show a
-reminder message instead of charging anyone — this is intentional, so nothing
-looks "live" before it actually is.
+### One-time setup (you need to do this yourself — I can't create accounts or handle secret keys for you)
+
+**A. Create a Stripe account**
+1. Go to stripe.com → sign up (free, no monthly cost — Stripe takes a small % + fee per transaction, same as any card processor).
+2. Once in, make sure you're in **Test mode** first (toggle top-right) to try everything safely before going live.
+
+**B. Get your Stripe secret key into Netlify**
+1. Stripe Dashboard → **Developers → API keys** → copy the **Secret key** (starts `sk_test_...` in test mode).
+2. Netlify → your site → **Project configuration → Environment variables** → **Add a variable**:
+   - Key: `STRIPE_SECRET_KEY`
+   - Value: paste the secret key
+3. Save.
+
+**C. Set up the Stripe webhook (this is what actually records orders)**
+1. Stripe Dashboard → **Developers → Webhooks → Add endpoint**.
+2. Endpoint URL: `https://wearbears.com/.netlify/functions/stripe-webhook`
+3. Select event: `checkout.session.completed`
+4. Save, then click into the new endpoint and copy the **Signing secret** (starts `whsec_...`).
+5. Back in Netlify → Environment variables → add another:
+   - Key: `STRIPE_WEBHOOK_SECRET`
+   - Value: paste the signing secret
+
+**D. Redeploy** so the new environment variables take effect: Netlify → Deploys → Trigger deploy → Deploy site.
+
+**E. Test it**
+1. Add something to your bag on the live site and check out.
+2. Use Stripe's test card: `4242 4242 4242 4242`, any future expiry date, any CVC, any postcode.
+3. You should land on the Order Confirmed page with a real order number, and see the order appear in your Admin panel (see section 5) within a few seconds.
+
+**F. Go live**
+1. Flip Stripe out of Test mode (top-right toggle) — this requires completing Stripe's business verification (bank details, business info).
+2. Repeat steps B and C using your **live** keys (they start `sk_live_...` / the live webhook's `whsec_...`), replacing the test values in Netlify's environment variables.
+3. Redeploy again.
 
 ## 4. Order tracking
 
-Real tracking happens through Shopify (order confirmation emails with tracking
-links, and account order history), since that's where the real order and payment
-exist. The `track-order.html` page explains this to customers and links to
-Shopify's account sign-in once `STORE_DOMAIN` is set.
+Customers track orders themselves at `track-order.html` — they enter their order
+number (shown on the confirmation page and emailed via Stripe's receipt) and the
+email they checked out with, and it looks up live status/tracking directly from
+your order database. No account or third-party sign-in needed.
 
-**To see every order yourself:** Shopify Admin → **Orders**. That page already is
-your order admin panel — no separate one is needed.
+## 5. Admin panel — viewing orders and messages yourself
 
-## 5. Reading customer messages (Contact page)
+**Orders:** go to `wearbears.com/admin.html`. The first time, you need to enable
+and invite yourself:
+1. Netlify → your site → **Project configuration → Identity** → **Enable Identity**.
+2. Under **Registration**, set it to **Invite only** (important — otherwise
+   strangers could sign themselves up to your admin panel).
+3. Click **Invite users** → enter your own email → send. You'll get an email to
+   set a password.
+4. Now go to `wearbears.com/admin.html`, click **Sign In**, and log in with that
+   email/password. You'll see every order, its status, and can add tracking
+   details (carrier, tracking number, link) — customers see this instantly on
+   the Track Order page.
 
-The Contact form submits via **Netlify Forms** (a free built-in feature of your
-host) instead of email — every submission is captured automatically.
+**Messages:** Netlify → your site → **Forms** → **contact**. Every Contact page
+submission appears there (see previous section for email notifications).
 
-**To read messages:** Netlify → your site → **Forms** (left sidebar) → click
-**contact**. Every submission (name, email, order number, message) appears there,
-newest first.
-
-**To get an email the moment someone submits:** Forms → **Settings and usage** →
-**Add notification** → **Email notification** → enter your email address. No code
-needed — this is a one-time click.
+**To get an email the moment someone submits a message:** Netlify → Forms →
+**Settings and usage** → **Add notification** → **Email notification** → enter
+your email address. No code needed — this is a one-time click.
 
 ## 6. Viewing the site
 
-Just open `index.html` in a browser to preview. To publish it, upload the whole
-folder to any static web host (or your domain's file hosting) exactly as-is.
+Just open `index.html` in a browser to preview the design (the bag/checkout/
+tracking backend only works once deployed on Netlify with Stripe configured,
+since it needs the live serverless functions). To publish changes, push to the
+connected GitHub repo and Netlify redeploys automatically.
 
 ## Structure
 ```
-index.html          Homepage
-shop.html            Full catalog with Men/Women/All filter
-product.html         Single product detail (?id=... from products.js)
-bag.html             Shopping bag (saved in the browser)
-track-order.html     Order tracking info
-contact.html         Contact form (submits to Netlify Forms — see section 5)
-about.html           Brand story
-css/style.css        All styling
-js/products.js       ← Edit this for products/photos/prices
-js/config.js         ← Edit this to connect real Shopify checkout
-js/cart.js           Bag logic (don't need to touch)
-js/shop.js           Product grid/filter logic (don't need to touch)
-js/product-detail.js Product page logic (don't need to touch)
-js/main.js           Menu/navigation logic (don't need to touch)
+index.html                  Homepage
+shop.html                   Full catalog with Men/Women/All filter
+product.html                Single product detail (?id=... from products.js)
+bag.html                    Shopping bag (saved in the browser) + checkout
+success.html                Post-payment order confirmation
+track-order.html            Customer order tracking (order number + email)
+contact.html                Contact form (submits to Netlify Forms)
+about.html                  Brand story
+admin.html                  Password-protected order/admin panel (Netlify Identity)
+css/style.css               All styling
+js/products.js              ← Edit this for products/photos/prices (also read by the backend)
+js/config.js                Site-wide constants (currency symbol)
+js/cart.js                  Bag logic + checkout trigger
+js/shop.js                  Product grid/filter logic
+js/product-detail.js        Product page logic + Buy Now
+js/admin.js                 Admin panel login + orders table
+js/main.js                  Menu/navigation logic
+netlify/functions/
+  create-checkout-session.js  Starts a Stripe Checkout session (validates prices server-side)
+  stripe-webhook.js           Records paid orders (triggered by Stripe)
+  get-order.js                Customer order lookup (order number + email)
+  get-order-by-session.js     Powers the success page's order number display
+  list-orders.js              Admin: list all orders (requires login)
+  update-order.js             Admin: update status/tracking (requires login)
+package.json                 Lists backend dependencies (stripe, @netlify/blobs)
+netlify.toml                 Tells Netlify where the functions live
 ```
