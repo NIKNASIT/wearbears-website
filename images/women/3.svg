@@ -1,6 +1,10 @@
-<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 900 1125'>
-  <rect width='900' height='1125' fill='#EDEAE3'/>
-  <rect x='24' y='24' width='852' height='1077' fill='none' stroke='#B08D57' stroke-width='2'/>
-  <text x='50%' y='48%' text-anchor='middle' font-family='Georgia, serif' font-size='28' fill='#8a7256' letter-spacing='2'>WOMEN 3</text>
-  <text x='50%' y='55%' text-anchor='middle' font-family='Arial' font-size='13' fill='#a99a86' letter-spacing='3'>REPLACE WITH YOUR PHOTO</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1125">
+  <rect width="900" height="1125" fill="#F0ECE3"/>
+  <rect x="24" y="24" width="852" height="1077" fill="none" stroke="#B08D57" stroke-width="1"/>
+  <g fill="none" stroke="#B08D57" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M395 340 a55 40 0 0 1 110 0 L505 380 L590 420 L575 500 L520 470 L520 800 L380 800 L380 470 L325 500 L310 420 L395 380 Z"/>
+    <path d="M395 340 a55 40 0 0 0 110 0"/>
+    <path d="M380 470 h140 M400 760 h100"/>
+  </g>
+  <text x="50%" y="1080" text-anchor="middle" font-family="Georgia, serif" font-size="18" fill="#B08D57" letter-spacing="3">CASHMERE ROLL NECK</text>
 </svg>

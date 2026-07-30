@@ -1,6 +1,13 @@
-<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 900 1125'>
-  <rect width='900' height='1125' fill='#EDEAE3'/>
-  <rect x='24' y='24' width='852' height='1077' fill='none' stroke='#B08D57' stroke-width='2'/>
-  <text x='50%' y='48%' text-anchor='middle' font-family='Georgia, serif' font-size='28' fill='#8a7256' letter-spacing='2'>MEN 6</text>
-  <text x='50%' y='55%' text-anchor='middle' font-family='Arial' font-size='13' fill='#a99a86' letter-spacing='3'>REPLACE WITH YOUR PHOTO</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1125">
+  <rect width="900" height="1125" fill="#F0ECE3"/>
+  <rect x="24" y="24" width="852" height="1077" fill="none" stroke="#B08D57" stroke-width="1"/>
+  <g fill="none" stroke="#B08D57" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M220 560 h380"/>
+    <path d="M600 530 h60 v60 h-60 z"/>
+    <path d="M600 560 h-30"/>
+    <circle cx="280" cy="560" r="6" fill="#B08D57"/>
+    <circle cx="320" cy="560" r="6" fill="#B08D57"/>
+    <circle cx="360" cy="560" r="6" fill="#B08D57"/>
+  </g>
+  <text x="50%" y="1080" text-anchor="middle" font-family="Georgia, serif" font-size="18" fill="#B08D57" letter-spacing="3">FULL-GRAIN BELT</text>
 </svg>

@@ -1,6 +1,9 @@
-<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 900 1200'>
-  <rect width='900' height='1200' fill='#EDEAE3'/>
-  <rect x='24' y='24' width='852' height='1152' fill='none' stroke='#B08D57' stroke-width='2'/>
-  <text x='50%' y='48%' text-anchor='middle' font-family='Georgia, serif' font-size='28' fill='#8a7256' letter-spacing='2'>WOMEN COLLECTION</text>
-  <text x='50%' y='55%' text-anchor='middle' font-family='Arial' font-size='13' fill='#a99a86' letter-spacing='3'>REPLACE WITH YOUR PHOTO</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1200">
+  <rect width="900" height="1200" fill="#EAE4D6"/>
+  <g fill="none" stroke="#B08D57" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M450 350 L385 405 L305 385 L280 620 L325 645 L340 1050 L400 1080 L400 720 L450 720 L500 720 L500 1080 L560 1050 L575 645 L620 620 L595 385 L515 405 Z"/>
+    <path d="M385 405 L365 480 M515 405 L535 480"/>
+    <path d="M450 350 L426 395 L450 425 L474 395 Z"/>
+    <path d="M375 770 h35 M490 770 h35"/>
+  </g>
 </svg>

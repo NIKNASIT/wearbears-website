@@ -1,6 +1,12 @@
-<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 900 1125'>
-  <rect width='900' height='1125' fill='#EDEAE3'/>
-  <rect x='24' y='24' width='852' height='1077' fill='none' stroke='#B08D57' stroke-width='2'/>
-  <text x='50%' y='48%' text-anchor='middle' font-family='Georgia, serif' font-size='28' fill='#8a7256' letter-spacing='2'>MEN 3</text>
-  <text x='50%' y='55%' text-anchor='middle' font-family='Arial' font-size='13' fill='#a99a86' letter-spacing='3'>REPLACE WITH YOUR PHOTO</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1125">
+  <rect width="900" height="1125" fill="#F0ECE3"/>
+  <rect x="24" y="24" width="852" height="1077" fill="none" stroke="#B08D57" stroke-width="1"/>
+  <g fill="none" stroke="#B08D57" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M450 300 l-55 25 -75 15 -35 85 45 30 v390 h240 v-390 l45 -30 -35 -85 -75 -15 z"/>
+    <path d="M400 325 l25 55 25 -35 M500 325 l-25 55 -25 -35"/>
+    <path d="M450 340 v420"/>
+    <path d="M425 470 h20 v20 h-20 z"/>
+    <path d="M415 550 v250"/>
+  </g>
+  <text x="50%" y="1080" text-anchor="middle" font-family="Georgia, serif" font-size="18" fill="#B08D57" letter-spacing="3">OXFORD COTTON SHIRT</text>
 </svg>

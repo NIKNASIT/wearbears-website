@@ -1,6 +1,11 @@
-<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 900 1125'>
-  <rect width='900' height='1125' fill='#EDEAE3'/>
-  <rect x='24' y='24' width='852' height='1077' fill='none' stroke='#B08D57' stroke-width='2'/>
-  <text x='50%' y='48%' text-anchor='middle' font-family='Georgia, serif' font-size='28' fill='#8a7256' letter-spacing='2'>WOMEN 1</text>
-  <text x='50%' y='55%' text-anchor='middle' font-family='Arial' font-size='13' fill='#a99a86' letter-spacing='3'>REPLACE WITH YOUR PHOTO</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1125">
+  <rect width="900" height="1125" fill="#F0ECE3"/>
+  <rect x="24" y="24" width="852" height="1077" fill="none" stroke="#B08D57" stroke-width="1"/>
+  <g fill="none" stroke="#B08D57" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M450 300 L385 355 L305 335 L280 530 L325 550 L340 900 L400 925 L400 620 L450 620 L500 620 L500 925 L560 900 L575 550 L620 530 L595 335 L515 355 Z"/>
+    <path d="M385 355 L365 420 M515 355 L535 420"/>
+    <path d="M450 300 L426 340 L450 370 L474 340 Z"/>
+    <path d="M375 660 h35 M490 660 h35"/>
+  </g>
+  <text x="50%" y="1080" text-anchor="middle" font-family="Georgia, serif" font-size="18" fill="#B08D57" letter-spacing="3">TAILORED WOOL COAT</text>
 </svg>

@@ -1,6 +1,11 @@
-<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 900 1125'>
-  <rect width='900' height='1125' fill='#EDEAE3'/>
-  <rect x='24' y='24' width='852' height='1077' fill='none' stroke='#B08D57' stroke-width='2'/>
-  <text x='50%' y='48%' text-anchor='middle' font-family='Georgia, serif' font-size='28' fill='#8a7256' letter-spacing='2'>MEN 5</text>
-  <text x='50%' y='55%' text-anchor='middle' font-family='Arial' font-size='13' fill='#a99a86' letter-spacing='3'>REPLACE WITH YOUR PHOTO</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1125">
+  <rect width="900" height="1125" fill="#F0ECE3"/>
+  <rect x="24" y="24" width="852" height="1077" fill="none" stroke="#B08D57" stroke-width="1"/>
+  <g fill="none" stroke="#B08D57" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M380 520 h150 l60 60 h30 l20 40 -20 20 h-260 l-15 -40 z"/>
+    <path d="M380 520 v-70 l40 -15 h60 l10 15 v70"/>
+    <path d="M400 460 l30 20 M440 450 l25 25 M480 450 l20 30"/>
+    <path d="M330 620 h300"/>
+  </g>
+  <text x="50%" y="1080" text-anchor="middle" font-family="Georgia, serif" font-size="18" fill="#B08D57" letter-spacing="3">LEATHER DERBY SHOE</text>
 </svg>

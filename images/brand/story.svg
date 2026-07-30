@@ -1,6 +1,11 @@
-<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 900 1125'>
-  <rect width='900' height='1125' fill='#EDEAE3'/>
-  <rect x='24' y='24' width='852' height='1077' fill='none' stroke='#B08D57' stroke-width='2'/>
-  <text x='50%' y='48%' text-anchor='middle' font-family='Georgia, serif' font-size='28' fill='#8a7256' letter-spacing='2'>BRAND STORY IMAGE</text>
-  <text x='50%' y='55%' text-anchor='middle' font-family='Arial' font-size='13' fill='#a99a86' letter-spacing='3'>REPLACE WITH YOUR PHOTO</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1125">
+  <rect width="900" height="1125" fill="#EAE4D6"/>
+  <g fill="none" stroke="#B08D57" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="280" y="420" width="340" height="230" rx="6"/>
+    <path d="M280 470 h340 M280 520 h340 M280 570 h340 M280 620 h340"/>
+    <path d="M240 700 q210 60 420 0" />
+    <circle cx="620" cy="360" r="16"/>
+    <path d="M636 360 q120 20 90 140"/>
+    <path d="M420 780 l60 -60 40 40 -60 60 z M400 800 l20 20"/>
+  </g>
 </svg>
